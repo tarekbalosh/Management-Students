@@ -41,8 +41,8 @@ export default function InvoiceDetailPage({ params: paramsPromise }: { params: P
   });
 
   const recordPaymentMutation = useMutation({
-    mutationFn: async (data: any) => {
-      const { data: response } = await api.post(`/payments/${id}/transaction`, data);
+    mutationFn: async (formData: any) => {
+      const { data: response } = await api.post(`/payments/${id}/transaction`, formData);
       return response;
     },
     onSuccess: () => {
@@ -271,7 +271,7 @@ export default function InvoiceDetailPage({ params: paramsPromise }: { params: P
       {showPaymentModal && (
         <PaymentModal 
           onClose={() => setShowPaymentModal(false)} 
-          onSubmit={(data) => recordPaymentMutation.mutate(data)}
+          onSubmit={(formData: any) => recordPaymentMutation.mutate(formData)}
           balance={(invoice.totalAmount || 0) - (invoice.paidAmount || 0)}
         />
       )}
