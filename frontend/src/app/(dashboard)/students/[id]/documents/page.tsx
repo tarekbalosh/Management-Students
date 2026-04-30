@@ -15,9 +15,9 @@ import {
   AlertCircle 
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
-import { cn } from "@/lib/utils";
 import React, { useState } from "react";
+import { cn } from "@/lib/utils";
+import api from "@/lib/axios";
 
 const fetchStudentDocs = async (studentId: string) => {
   const { data } = await api.get(`/documents/${studentId}`);

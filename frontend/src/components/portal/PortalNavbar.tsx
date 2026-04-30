@@ -15,7 +15,7 @@ import {
   GraduationCap
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { NotificationBell } from './NotificationBell';
+import { NotificationBell } from '../layout/NotificationBell';
 
 export function PortalNavbar() {
   const pathname = usePathname();
