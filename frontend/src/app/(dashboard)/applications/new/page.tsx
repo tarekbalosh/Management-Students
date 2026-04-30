@@ -3,9 +3,9 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import api from "@/lib/axios";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { 
   Building, 
@@ -47,15 +47,15 @@ export default function NewApplicationPage() {
   });
 
   // Queries for selectors
-  const { data: students } = useQuery({ queryKey: ["students-list"], queryFn: () => axios.get("/api/students").then(res => res.data.data.students) });
-  const { data: universities } = useQuery({ queryKey: ["unis-list"], queryFn: () => axios.get("/api/universities").then(res => res.data.data.universities) });
+  const { data: students } = useQuery({ queryKey: ["students-list"], queryFn: () => api.get("/students").then(res => res.data.data.students) });
+  const { data: universities } = useQuery({ queryKey: ["unis-list"], queryFn: () => api.get("/universities").then(res => res.data.data.universities) });
 
   const selectedUniId = watch("universityId");
   const selectedUni = universities?.find((u: any) => u._id === selectedUniId);
 
   const onSubmit = async (data: FormValues) => {
     try {
-      await axios.post("/api/applications", data);
+      await api.post("/applications", data);
       router.push("/applications");
     } catch (err) {
       alert("Error creating application.");

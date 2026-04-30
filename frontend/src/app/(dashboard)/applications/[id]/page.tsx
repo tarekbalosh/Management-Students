@@ -18,10 +18,10 @@ import {
   MessageSquare,
   Upload
 } from "lucide-react";
-import { useState } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
+import api from "@/lib/axios";
 
 const fetchApplication = async (id: string) => {
   const { data } = await api.get(`/applications/${id}`);
@@ -48,6 +48,7 @@ export default function ApplicationDetailPage({ params: paramsPromise }: { param
   });
 
   if (isLoading) return <div className="flex h-[60vh] items-center justify-center"><Loader2 className="animate-spin text-primary-600" /></div>;
+  if (!app) return <div className="p-8 text-center text-slate-500">Application not found.</div>;
 
   return (
     <div className="space-y-8 pb-20">
