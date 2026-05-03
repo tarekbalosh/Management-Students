@@ -23,9 +23,9 @@ const seed = async () => {
     // 1. Create Admin User
     const adminPassword = await bcrypt.hash('Admin@123', 12);
     const admin = await User.create({
-      firstName: 'Sarah',
-      lastName: 'Mitchell',
-      email: 'admin@studycrm.com',
+      firstName: 'Tarek',
+      lastName: 'Baloush',
+      email: 'admin@study.com',
       password: adminPassword,
       role: 'admin',
     });

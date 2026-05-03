@@ -24,8 +24,21 @@ const app = express();
 // ── Security Headers ─────────────────────────
 app.use(helmet());
 app.use(compression());
+
+// Support for Private Network Access (PNA) preflight requests
+app.use((req, res, next) => {
+  if (req.headers['access-control-request-private-network']) {
+    res.setHeader('Access-Control-Allow-Private-Network', 'true');
+  }
+  next();
+});
+
+const origins = process.env.CLIENT_ORIGIN 
+  ? process.env.CLIENT_ORIGIN.split(',') 
+  : ['http://localhost:3000'];
+
 app.use(cors({
-  origin:      process.env.CLIENT_ORIGIN || 'http://localhost:3000',
+  origin:      origins,
   credentials: true,
   methods:     ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 }));
