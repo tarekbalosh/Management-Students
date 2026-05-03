@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+import { Button } from "@/components/ui/Button";
+
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,53 +39,53 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-white px-4">
       {/* Background Decor */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-primary-100/50 rounded-full blur-[120px]" />
-        <div className="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-indigo-100/50 rounded-full blur-[120px]" />
+        <div className="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] bg-primary-50 rounded-full blur-[160px]" />
+        <div className="absolute -bottom-[20%] -right-[10%] w-[60%] h-[60%] bg-indigo-50 rounded-full blur-[160px]" />
       </div>
 
-      <div className="relative w-full max-w-md">
+      <div className="relative w-full max-w-[480px]">
         {/* Logo Section */}
-        <div className="text-center mb-10 space-y-2">
-          <div className="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-xl mb-4">
-            <LayoutDashboard className="text-primary-600" size={32} />
+        <div className="text-center mb-12 space-y-4">
+          <div className="inline-flex h-20 w-20 items-center justify-center rounded-[2.5rem] bg-white shadow-soft mb-4 border border-slate-50">
+            <LayoutDashboard className="text-primary-600" size={40} />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-slate-900">Welcome Back</h1>
-          <p className="text-slate-500">Sign in to your Student Management System</p>
+          <h1 className="text-5xl font-black tracking-tighter text-slate-900 uppercase">Welcome Back</h1>
+          <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">Sign in to your Student Management System</p>
         </div>
 
         {/* Login Card */}
-        <div className="rounded-3xl border bg-white p-8 shadow-2xl shadow-slate-200/50">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-slate-700 ml-1">Email Address</label>
+        <div className="rounded-[3rem] border border-slate-100 bg-white/80 p-12 shadow-soft backdrop-blur-xl">
+          <form onSubmit={handleSubmit} className="space-y-8">
+            <div className="space-y-3">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300" size={20} />
                 <input
                   type="email"
                   placeholder="name@example.com"
                   required
-                  className="w-full h-12 rounded-xl border border-slate-200 bg-slate-50/50 pl-11 pr-4 text-sm outline-none focus:border-primary-500 focus:bg-white transition-all"
+                  className="w-full h-14 rounded-2xl border-none bg-slate-50 pl-14 pr-6 text-sm font-medium outline-none ring-primary-500 transition-all focus:ring-2 focus:bg-white"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-3">
               <div className="flex items-center justify-between ml-1">
-                <label className="text-sm font-bold text-slate-700">Password</label>
-                <a href="#" className="text-xs font-bold text-primary-600 hover:underline">Forgot?</a>
+                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Password</label>
+                <a href="#" className="text-[10px] font-black text-primary-600 uppercase tracking-widest hover:underline">Forgot?</a>
               </div>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300" size={20} />
                 <input
                   type="password"
                   placeholder="••••••••"
                   required
-                  className="w-full h-12 rounded-xl border border-slate-200 bg-slate-50/50 pl-11 pr-4 text-sm outline-none focus:border-primary-500 focus:bg-white transition-all"
+                  className="w-full h-14 rounded-2xl border-none bg-slate-50 pl-14 pr-6 text-sm font-medium outline-none ring-primary-500 transition-all focus:ring-2 focus:bg-white"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -91,29 +93,25 @@ export default function LoginPage() {
             </div>
 
             {error && (
-              <div className="flex items-center gap-2 rounded-xl bg-rose-50 p-4 text-sm font-medium text-rose-600 border border-rose-100 animate-in fade-in slide-in-from-top-1">
-                <ShieldCheck size={16} />
+              <div className="flex items-center gap-3 rounded-2xl bg-rose-50 p-5 text-xs font-bold text-rose-600 border border-rose-100 animate-in fade-in slide-in-from-top-1">
+                <ShieldCheck size={18} />
                 {error}
               </div>
             )}
 
-            <button
+            <Button
               type="submit"
-              disabled={loading}
-              className="group relative flex w-full h-12 items-center justify-center rounded-xl bg-primary-600 font-bold text-white shadow-lg shadow-primary-200 transition-all hover:bg-primary-700 active:scale-95 disabled:opacity-50"
+              isLoading={loading}
+              className="w-full h-14 text-sm"
             >
-              {loading ? (
-                <Loader2 className="animate-spin" size={20} />
-              ) : (
-                <div className="flex items-center gap-2">
-                  <span>Sign In</span>
-                  <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
-                </div>
-              )}
-            </button>
+              <div className="flex items-center gap-3">
+                <span>Sign In</span>
+                <ArrowRight className="transition-transform" size={20} />
+              </div>
+            </Button>
           </form>
 
-          <div className="mt-8 text-center text-xs text-slate-400">
+          <div className="mt-12 text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest">
             Protected by enterprise-grade security. 
             <br />
             Need help? Contact your administrator.

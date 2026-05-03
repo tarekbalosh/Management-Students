@@ -30,6 +30,8 @@ import {
   Cell,
   Legend
 } from "recharts";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/Button";
 
 // ── Data Fetching ──────────────────────────────
 const fetchStats = async () => {
@@ -39,47 +41,16 @@ const fetchStats = async () => {
 
 const COLORS = ["#4F46E5", "#10B981", "#F59E0B", "#EF4444"];
 
-export default function DashboardPage() {
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["dashboard-stats"],
-    queryFn: fetchStats,
-  });
-
-  if (isLoading) {
-    return (
-      <div className="flex h-[60vh] flex-col items-center justify-center gap-4">
-        <Loader2 className="h-10 w-10 animate-spin text-primary-600" />
-        <p className="text-slate-500 animate-pulse">Gathering intelligence...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="rounded-xl border border-rose-100 bg-rose-50 p-8 text-center text-rose-900">
-        <AlertCircle className="mx-auto mb-4 h-12 w-12 text-rose-500" />
-        <h2 className="text-xl font-bold">Failed to load statistics</h2>
-        <p className="mt-2 text-rose-700">Please check your connection and try again.</p>
-      </div>
-    );
-  }
-
-  const pieData = [
-    { name: "Pending", value: data.pendingApplications },
-    { name: "Accepted", value: data.acceptedApplications },
-    { name: "Rejected", value: data.rejectedApplications },
-  ];
-
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-10 pb-20">
       {/* ── Header ── */}
       <PageHeader 
-        title="Dashboard" 
-        subtitle="Manage your admission pipeline and student records."
+        title="Intelligence Dashboard" 
+        subtitle="Operational overview and performance metrics for the admission cycle."
       />
 
       {/* ── KPI Section ── */}
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard 
           title="Total Students" 
           value={data.totalStudents} 
@@ -90,12 +61,13 @@ export default function DashboardPage() {
           title="Active Applications" 
           value={data.totalApplications} 
           icon={FileCheck} 
-          trend={{ value: data.pendingApplications, isUp: true }} // Just using value for show
+          trend={{ value: 8, isUp: true }} 
         />
         <StatCard 
           title="Visa Approved" 
           value={data.visaApproved} 
           icon={Plane} 
+          trend={{ value: 5, isUp: true }}
         />
         <StatCard 
           title="Revenue (Paid)" 
@@ -104,45 +76,56 @@ export default function DashboardPage() {
         />
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-3">
+      <div className="grid gap-10 lg:grid-cols-3">
         {/* ── Main Charts ── */}
-        <div className="lg:col-span-2 space-y-8">
-          <div className="rounded-xl border bg-white p-6 shadow-sm">
-            <h3 className="mb-6 font-bold text-slate-900">Application Trends (Last 12 Months)</h3>
-            <div className="h-[300px] w-full">
+        <div className="lg:col-span-2 space-y-10">
+          <div className="rounded-[2.5rem] border border-slate-100 bg-white p-10 shadow-soft">
+            <div className="flex items-center justify-between mb-8">
+              <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight">Application Trends</h3>
+              <select className="bg-slate-50 border-none rounded-xl text-xs font-bold text-slate-500 px-4 py-2 outline-none">
+                <option>Last 12 Months</option>
+                <option>Last 30 Days</option>
+              </select>
+            </div>
+            <div className="h-[350px] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={data.applicationsByMonth}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F1F5F9" />
-                  <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: "#94A3B8", fontSize: 12 }} />
-                  <YAxis axisLine={false} tickLine={false} tick={{ fill: "#94A3B8", fontSize: 12 }} />
+                  <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: "#94A3B8", fontSize: 10, fontWeight: 700 }} />
+                  <YAxis axisLine={false} tickLine={false} tick={{ fill: "#94A3B8", fontSize: 10, fontWeight: 700 }} />
                   <Tooltip 
                     cursor={{ fill: "#F8FAFC" }}
-                    contentStyle={{ borderRadius: "12px", border: "none", boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1)" }}
+                    contentStyle={{ borderRadius: "20px", border: "none", boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.1)", padding: "12px 20px" }}
                   />
-                  <Bar dataKey="count" fill="#4F46E5" radius={[4, 4, 0, 0]} barSize={32} />
+                  <Bar dataKey="count" fill="#4F46E5" radius={[10, 10, 0, 0]} barSize={40} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
           </div>
 
-          <div className="space-y-4">
-            <h3 className="font-bold text-slate-900">Recent Applications</h3>
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight">Recent Applications</h3>
+              <Button variant="ghost" size="sm">View All</Button>
+            </div>
             <DataTable 
               columns={["Student", "University", "Status", "Date"]}
               isEmpty={data.recentApplications.length === 0}
             >
               {data.recentApplications.map((app: any) => (
-                <tr key={app._id} className="hover:bg-slate-50 transition-colors cursor-pointer">
-                  <td className="px-6 py-4 font-medium text-slate-900">
-                    {app.studentId?.firstName} {app.studentId?.lastName}
+                <tr key={app._id} className="hover:bg-slate-50 transition-colors cursor-pointer group">
+                  <td className="px-6 py-5">
+                    <p className="font-bold text-slate-900 group-hover:text-primary-600 transition-colors">
+                      {app.studentId?.firstName} {app.studentId?.lastName}
+                    </p>
                   </td>
-                  <td className="px-6 py-4 text-slate-600">{app.universityId?.name}</td>
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-5 text-slate-500 font-medium">{app.universityId?.name}</td>
+                  <td className="px-6 py-5">
                     <Badge variant={app.status === "accepted" ? "success" : app.status === "rejected" ? "danger" : "warning"}>
                       {app.status.replace("_", " ")}
                     </Badge>
                   </td>
-                  <td className="px-6 py-4 text-slate-500 text-xs">
+                  <td className="px-6 py-5 text-slate-400 text-[10px] font-bold uppercase">
                     {new Date(app.createdAt).toLocaleDateString()}
                   </td>
                 </tr>
@@ -152,67 +135,68 @@ export default function DashboardPage() {
         </div>
 
         {/* ── Sidebar Stats ── */}
-        <div className="space-y-8">
+        <div className="space-y-10">
           {/* Pie Chart */}
-          <div className="rounded-xl border bg-white p-6 shadow-sm">
-            <h3 className="mb-6 font-bold text-slate-900">Status Distribution</h3>
-            <div className="h-[240px]">
+          <div className="rounded-[2.5rem] border border-slate-100 bg-white p-10 shadow-soft">
+            <h3 className="mb-8 text-xl font-black text-slate-900 uppercase tracking-tight text-center">Pipeline Mix</h3>
+            <div className="h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={pieData}
-                    innerRadius={60}
-                    outerRadius={80}
-                    paddingAngle={5}
+                    innerRadius={70}
+                    outerRadius={90}
+                    paddingAngle={8}
                     dataKey="value"
+                    stroke="none"
                   >
                     {pieData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
                   <Tooltip />
-                  <Legend verticalAlign="bottom" height={36}/>
+                  <Legend verticalAlign="bottom" height={36} iconType="circle" wrapperStyle={{ paddingTop: '20px', fontSize: '10px', fontWeight: 'bold', textTransform: 'uppercase' }}/>
                 </PieChart>
               </ResponsiveContainer>
             </div>
           </div>
 
           {/* Quick Actions */}
-          <div className="rounded-xl border bg-white p-6 shadow-sm">
-            <h3 className="mb-4 font-bold text-slate-900">Quick Actions</h3>
-            <div className="grid grid-cols-2 gap-3">
+          <div className="rounded-[2.5rem] border border-slate-100 bg-white p-10 shadow-soft">
+            <h3 className="mb-6 text-xl font-black text-slate-900 uppercase tracking-tight">Launchpad</h3>
+            <div className="grid grid-cols-2 gap-4">
               {[
-                { label: "New Student", icon: Plus, color: "bg-indigo-50 text-indigo-600" },
-                { label: "Application", icon: FileCheck, color: "bg-emerald-50 text-emerald-600" },
-                { label: "Document", icon: Upload, color: "bg-amber-50 text-amber-600" },
-                { label: "Payment", icon: CreditCard, color: "bg-rose-50 text-rose-600" },
+                { label: "Add Student", icon: Plus, color: "text-indigo-600 bg-indigo-50" },
+                { label: "New App", icon: FileCheck, color: "text-emerald-600 bg-emerald-50" },
+                { label: "Upload Doc", icon: Upload, color: "text-amber-600 bg-amber-50" },
+                { label: "Payment", icon: CreditCard, color: "text-rose-600 bg-rose-50" },
               ].map((action, i) => (
                 <button 
                   key={i}
-                  className="flex flex-col items-center justify-center gap-2 rounded-xl border border-transparent bg-slate-50 p-4 transition-all hover:border-slate-200 hover:bg-white hover:shadow-md active:scale-95"
+                  className="flex flex-col items-center justify-center gap-3 rounded-3xl border-2 border-transparent bg-slate-50 p-6 transition-all hover:border-primary-100 hover:bg-white hover:shadow-soft active:scale-95 group"
                 >
-                  <div className={cn("rounded-lg p-2", action.color)}>
-                    <action.icon size={20} />
+                  <div className={cn("rounded-2xl p-3 transition-transform group-hover:scale-110", action.color)}>
+                    <action.icon size={24} />
                   </div>
-                  <span className="text-xs font-semibold text-slate-700">{action.label}</span>
+                  <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{action.label}</span>
                 </button>
               ))}
             </div>
           </div>
 
           {/* Notifications */}
-          <div className="rounded-xl border bg-white p-6 shadow-sm">
-            <h3 className="mb-4 font-bold text-slate-900">Recent Alerts</h3>
-            <div className="space-y-4">
+          <div className="rounded-[2.5rem] border border-slate-100 bg-white p-10 shadow-soft">
+            <h3 className="mb-6 text-xl font-black text-slate-900 uppercase tracking-tight">Intelligence</h3>
+            <div className="space-y-6">
               {data.recentNotifications.length === 0 ? (
-                <p className="text-sm text-slate-500 italic">No new notifications.</p>
+                <p className="text-sm text-slate-400 italic">Systems normal. No alerts.</p>
               ) : (
                 data.recentNotifications.map((n: any) => (
-                  <div key={n._id} className="flex gap-3 border-b border-slate-50 pb-3 last:border-0 last:pb-0">
-                    <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-primary-600" />
+                  <div key={n._id} className="flex gap-4 border-b border-slate-50 pb-6 last:border-0 last:pb-0 group">
+                    <div className="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full bg-primary-600 animate-pulse" />
                     <div>
-                      <p className="text-xs font-bold text-slate-900">{n.title}</p>
-                      <p className="mt-0.5 text-[11px] text-slate-500 line-clamp-2">{n.message}</p>
+                      <p className="text-xs font-black text-slate-900 leading-tight group-hover:text-primary-600 transition-colors">{n.title}</p>
+                      <p className="mt-1 text-[11px] text-slate-400 font-medium line-clamp-2">{n.message}</p>
                     </div>
                   </div>
                 ))

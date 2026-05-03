@@ -5,6 +5,7 @@ import { Sidebar } from "@/components/layout/Sidebar";
 import React, { useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function DashboardLayout({
   children,
@@ -13,6 +14,7 @@ export default function DashboardLayout({
 }) {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -35,15 +37,33 @@ export default function DashboardLayout({
         <Sidebar />
       </div>
 
-      {/* Main Content Area */}
-      {/* 
-        The sidebar width varies between 80px and 260px. 
-        We use a container that takes up the remaining space.
-        Note: The sidebar is fixed, so we need a margin on desktop.
-      */}
+      {/* Mobile Sidebar Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <div className="fixed inset-0 z-50 lg:hidden">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="relative h-full w-[280px]"
+            >
+              <Sidebar onMobileClose={() => setIsMobileMenuOpen(false)} isMobile />
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       <div className="flex flex-1 flex-col lg:ml-[260px] transition-[margin] duration-300">
-        <Navbar />
-        <main className="flex-1 p-8">
+        <Navbar onMenuClick={() => setIsMobileMenuOpen(true)} />
+        <main className="flex-1 p-4 md:p-8">
           <div className="mx-auto max-w-7xl">
             {children}
           </div>

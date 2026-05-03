@@ -24,3 +24,28 @@
 2026-04-30 16:24:35 [error]: ❌  MongoDB connection failed: connect ECONNREFUSED ::1:27017, connect ECONNREFUSED 127.0.0.1:27017
 2026-04-30 16:24:35 [warn]: ⚠️  Continuing in LIMITED MODE (Database operations will fail)
 2026-04-30 16:24:35 [info]: 🚀  Server running on port 5000 [development]
+2026-05-01 14:35:16 [warn]: MongoDB disconnected
+2026-05-01 14:35:16 [error]: ❌  MongoDB connection failed: connect ECONNREFUSED ::1:27017, connect ECONNREFUSED 127.0.0.1:27017
+2026-05-01 14:35:16 [warn]: ⚠️  Continuing in LIMITED MODE (Database operations will fail)
+2026-05-01 14:35:16 [info]: 🚀  Server running on port 5000 [development]
+2026-05-01 14:48:23 [warn]: MongoDB disconnected
+2026-05-01 14:48:23 [error]: ❌  MongoDB connection failed: connect ECONNREFUSED ::1:27017, connect ECONNREFUSED 127.0.0.1:27017
+2026-05-01 14:48:23 [warn]: ⚠️  Continuing in LIMITED MODE (Database operations will fail)
+2026-05-01 14:48:23 [info]: 🚀  Server running on port 5000 [development]
+2026-05-01 15:09:49 [warn]: MongoDB disconnected
+2026-05-01 15:11:54 [warn]: MongoDB disconnected
+2026-05-01 15:11:54 [error]: ❌  MongoDB connection failed: connect ECONNREFUSED ::1:27017, connect ECONNREFUSED 127.0.0.1:27017
+2026-05-01 15:11:54 [warn]: ⚠️  Continuing in LIMITED MODE (Database operations will fail)
+2026-05-01 15:11:54 [info]: 🚀  Server running on port 5000 [development]
+2026-05-03 15:29:17 [warn]: MongoDB disconnected
+2026-05-03 15:29:17 [error]: ❌  MongoDB connection failed: connect ECONNREFUSED ::1:27017, connect ECONNREFUSED 127.0.0.1:27017
+2026-05-03 15:29:17 [warn]: ⚠️  Continuing in LIMITED MODE (Database operations will fail)
+2026-05-03 15:29:17 [info]: 🚀  Server running on port 5000 [development]
+2026-05-03 15:32:31 [error]: [POST] /api/auth/login → MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
+    at Timeout.<anonymous> (C:\Users\USER\Desktop\افكار مشاريع AI\Studen Managment\Study-system\backend\node_modules\mongoose\lib\drivers\node-mongodb-native\collection.js:187:23)
+    at listOnTimeout (node:internal/timers:605:17)
+    at process.processTimers (node:internal/timers:541:7)
+2026-05-03 15:33:08 [error]: [POST] /api/auth/login → MongooseError: Operation `users.findOne()` buffering timed out after 10000ms
+    at Timeout.<anonymous> (C:\Users\USER\Desktop\افكار مشاريع AI\Studen Managment\Study-system\backend\node_modules\mongoose\lib\drivers\node-mongodb-native\collection.js:187:23)
+    at listOnTimeout (node:internal/timers:605:17)
+    at process.processTimers (node:internal/timers:541:7)

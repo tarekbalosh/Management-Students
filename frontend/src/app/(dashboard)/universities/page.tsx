@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
 import { 
   Building, 
   MapPin, 
@@ -13,8 +14,6 @@ import {
   Plus, 
   ArrowRight,
   School,
-  GraduationCap,
-  Trophy,
   Loader2
 } from "lucide-react";
 import { useState } from "react";
@@ -36,117 +35,119 @@ export default function UniversitiesPage() {
   });
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-12 pb-20">
       <PageHeader 
         title="University Catalog" 
-        subtitle="Explore partner universities and their academic programs."
+        subtitle="Discover world-class academic institutions and partner programs."
       >
-        <button className="flex items-center gap-2 rounded-xl bg-primary-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-primary-200 transition-all hover:bg-primary-700 active:scale-95">
-          <Plus size={18} />
+        <Button size="sm">
+          <Plus size={16} />
           <span>Add University</span>
-        </button>
+        </Button>
       </PageHeader>
 
       {/* Search & Filters */}
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-center bg-white p-6 rounded-2xl border shadow-sm">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-center bg-white p-8 rounded-[2rem] border border-slate-100 shadow-soft">
+        <div className="relative flex-1 max-w-2xl">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
           <input
             type="text"
-            placeholder="Search by name, country, or field..."
-            className="w-full h-12 rounded-xl border border-slate-200 pl-10 pr-4 text-sm outline-none focus:border-primary-500 transition-all"
+            placeholder="Search by institution name, city or academic field..."
+            className="w-full h-12 rounded-2xl border-none bg-slate-50 pl-12 pr-4 text-sm font-medium outline-none ring-primary-500 transition-all focus:ring-2"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-4">
           <select 
-            className="h-12 rounded-xl border border-slate-200 bg-white px-4 text-sm outline-none focus:border-primary-500 min-w-[160px]"
+            className="h-12 rounded-2xl border-none bg-slate-50 px-6 text-[10px] font-black uppercase tracking-widest text-slate-500 outline-none ring-primary-500 focus:ring-2 cursor-pointer"
             value={country}
             onChange={(e) => setCountry(e.target.value)}
           >
-            <option value="">All Countries</option>
-            <option value="USA">USA</option>
-            <option value="UK">UK</option>
+            <option value="">All Regions</option>
+            <option value="USA">United States</option>
+            <option value="UK">United Kingdom</option>
             <option value="Canada">Canada</option>
             <option value="Australia">Australia</option>
             <option value="Germany">Germany</option>
           </select>
-          <button className="flex h-12 items-center gap-2 rounded-xl border border-slate-200 bg-white px-6 text-sm font-bold text-slate-700 hover:bg-slate-50">
+          <Button variant="ghost" size="icon" className="h-12 w-12 rounded-2xl border-2 border-slate-50">
             <Filter size={18} />
-            <span>Filters</span>
-          </button>
+          </Button>
         </div>
       </div>
 
       {/* Grid of Universities */}
       {isLoading ? (
         <div className="flex h-60 items-center justify-center">
-          <Loader2 className="h-8 w-8 animate-spin text-primary-600" />
+          <Loader2 className="h-10 w-10 animate-spin text-primary-600" />
         </div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
           {data?.universities?.map((uni: any) => (
-            <div key={uni._id} className="group flex flex-col bg-white rounded-2xl border shadow-sm transition-all hover:shadow-xl hover:border-primary-100 overflow-hidden">
+            <div key={uni._id} className="group flex flex-col bg-white rounded-[2.5rem] border border-slate-100 shadow-soft transition-all hover:shadow-indigo hover:border-primary-100 overflow-hidden">
               {/* Header Image Placeholder */}
-              <div className="h-32 bg-slate-100 relative">
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                <div className="absolute bottom-4 left-6 flex items-center gap-2">
-                  <div className="h-12 w-12 rounded-xl bg-white border p-2 shadow-sm flex items-center justify-center">
-                    <Building className="text-primary-600" size={24} />
+              <div className="h-40 bg-slate-100 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent z-10" />
+                <div className="absolute top-0 right-0 p-4 z-20">
+                  <Badge variant="success" className="bg-white/90 backdrop-blur-md border-none text-emerald-600">
+                    Partner
+                  </Badge>
+                </div>
+                <div className="absolute bottom-6 left-8 flex items-center gap-4 z-20">
+                  <div className="h-16 w-16 rounded-2xl bg-white p-3 shadow-xl flex items-center justify-center border border-white/20">
+                    <Building className="text-primary-600" size={32} />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 text-white/80 text-[10px] font-black uppercase tracking-[0.2em]">
+                      <MapPin size={12} />
+                      {uni.city}, {uni.country}
+                    </div>
                   </div>
                 </div>
               </div>
               
-              <div className="p-6 pt-8 space-y-4 flex-1">
-                <div>
-                  <h3 className="text-lg font-bold text-slate-900 group-hover:text-primary-600 transition-colors">
-                    {uni.name}
-                  </h3>
-                  <div className="flex items-center gap-1.5 text-sm text-slate-500 mt-1">
-                    <MapPin size={14} />
-                    {uni.city}, {uni.country}
-                  </div>
-                </div>
+              <div className="p-8 pt-6 space-y-6 flex-1">
+                <h3 className="text-xl font-black text-slate-900 group-hover:text-primary-600 transition-colors tracking-tight leading-tight">
+                  {uni.name}
+                </h3>
 
-                <div className="flex items-center gap-4 py-2 border-y border-slate-50">
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Programs</span>
-                    <span className="text-sm font-bold text-slate-700">{uni.programs?.length || 0}</span>
+                <div className="grid grid-cols-2 gap-4 py-4 border-y border-slate-50">
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest block">Active Programs</span>
+                    <span className="text-sm font-black text-slate-700">{uni.programs?.length || 0} Majors</span>
                   </div>
-                  <div className="h-8 w-[1px] bg-slate-100" />
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Ranking</span>
-                    <span className="text-sm font-bold text-slate-700">#{uni.ranking?.world || "N/A"}</span>
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest block">Global Ranking</span>
+                    <span className="text-sm font-black text-slate-700">#{uni.ranking?.world || "N/A"}</span>
                   </div>
                 </div>
 
                 <div className="flex flex-wrap gap-2">
                   {uni.programs?.slice(0, 2).map((p: any, i: number) => (
-                    <Badge key={i} variant="outline" className="text-[10px] uppercase">
+                    <Badge key={i} variant="outline" className="text-[9px]">
                       {p.degree}
                     </Badge>
                   ))}
                   {(uni.programs?.length || 0) > 2 && (
-                    <span className="text-[10px] font-bold text-slate-400">+{uni.programs.length - 2} more</span>
+                    <span className="text-[10px] font-black text-slate-300 uppercase ml-1">+{uni.programs.length - 2} More</span>
                   )}
                 </div>
               </div>
 
-              <div className="px-6 py-4 bg-slate-50 border-t flex items-center justify-between">
+              <div className="px-8 py-6 bg-slate-50/50 border-t border-slate-50 flex items-center justify-between">
                 <a 
                   href={uni.website} 
                   target="_blank" 
-                  className="text-slate-400 hover:text-primary-600 transition-colors"
+                  className="h-10 w-10 flex items-center justify-center rounded-xl bg-white border border-slate-100 text-slate-400 hover:text-primary-600 hover:border-primary-100 transition-all shadow-sm"
                 >
                   <Globe size={18} />
                 </a>
-                <Link 
-                  href={`/universities/${uni._id}`}
-                  className="flex items-center gap-1 text-sm font-bold text-primary-600 hover:underline"
-                >
-                  View Details
-                  <ArrowRight size={14} />
+                <Link href={`/universities/${uni._id}`}>
+                  <Button variant="ghost" size="sm" className="px-0 hover:bg-transparent hover:text-primary-700 group/btn">
+                    Details
+                    <ArrowRight size={16} className="ml-2 transition-transform group-hover/btn:translate-x-1" />
+                  </Button>
                 </Link>
               </div>
             </div>
@@ -156,18 +157,17 @@ export default function UniversitiesPage() {
 
       {/* Empty State */}
       {!isLoading && data?.universities?.length === 0 && (
-        <div className="bg-white rounded-2xl border p-20 text-center space-y-4">
-          <School size={64} className="mx-auto text-slate-200" />
-          <div className="space-y-1">
-            <h3 className="text-xl font-bold text-slate-900">No Universities Found</h3>
-            <p className="text-slate-500">Try adjusting your filters or search terms.</p>
+        <div className="bg-white rounded-[3rem] border border-slate-100 p-24 text-center shadow-soft">
+          <div className="h-24 w-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-8 border border-slate-100">
+            <School size={48} className="text-slate-200" />
           </div>
-          <button 
-            onClick={() => { setSearch(""); setCountry(""); }}
-            className="text-primary-600 font-bold hover:underline"
-          >
-            Clear all filters
-          </button>
+          <div className="max-w-md mx-auto space-y-2 mb-10">
+            <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tight">No Institutions Found</h3>
+            <p className="text-sm font-medium text-slate-400">Our deep intelligence systems couldn't find any universities matching your specific criteria.</p>
+          </div>
+          <Button variant="outline" onClick={() => { setSearch(""); setCountry(""); }}>
+            Reset Filters
+          </Button>
         </div>
       )}
     </div>

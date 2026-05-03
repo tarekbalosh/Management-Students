@@ -1,11 +1,15 @@
 "use client";
 
-import { Bell, Search, User } from "lucide-react";
+import { Bell, Search, User, Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { NotificationBell } from "./NotificationBell";
 
-export function Navbar() {
+interface NavbarProps {
+  onMenuClick?: () => void;
+}
+
+export function Navbar({ onMenuClick }: NavbarProps) {
   const pathname = usePathname();
   
   // Simple breadcrumb logic
@@ -15,12 +19,21 @@ export function Navbar() {
     : "Dashboard";
 
   return (
-    <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b bg-white/80 px-8 backdrop-blur-md">
-      {/* Left: Breadcrumbs */}
-      <div className="flex items-center gap-2 text-sm font-medium">
-        <span className="text-slate-400">Pages</span>
-        <span className="text-slate-300">/</span>
-        <span className="text-slate-900">{currentPage}</span>
+    <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b bg-white/80 px-4 md:px-8 backdrop-blur-md">
+      {/* Left: Breadcrumbs & Mobile Menu */}
+      <div className="flex items-center gap-4">
+        <button 
+          onClick={onMenuClick}
+          className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 lg:hidden"
+        >
+          <Menu size={20} />
+        </button>
+        
+        <div className="hidden items-center gap-2 text-sm font-medium md:flex">
+          <span className="text-slate-400">Pages</span>
+          <span className="text-slate-300">/</span>
+          <span className="text-slate-900">{currentPage}</span>
+        </div>
       </div>
 
       {/* Center: Search */}

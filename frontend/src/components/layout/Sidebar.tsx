@@ -32,17 +32,28 @@ const navItems = [
   { name: "Settings", href: "/settings", icon: Settings },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  onMobileClose?: () => void;
+  isMobile?: boolean;
+}
+
+export function Sidebar({ onMobileClose, isMobile }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const pathname = usePathname();
+
+  const handleLinkClick = () => {
+    if (isMobile && onMobileClose) {
+      onMobileClose();
+    }
+  };
 
   return (
     <motion.aside
       initial={false}
-      animate={{ width: isCollapsed ? 80 : 260 }}
+      animate={{ width: isMobile ? 280 : isCollapsed ? 80 : 260 }}
       className={cn(
         "relative flex flex-col border-r bg-white transition-all duration-300 ease-in-out",
-        "fixed inset-y-0 left-0 z-50 h-screen"
+        isMobile ? "h-full" : "fixed inset-y-0 left-0 z-50 h-screen"
       )}
     >
       {/* Logo Section */}
@@ -76,6 +87,7 @@ export function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
+              onClick={handleLinkClick}
               className={cn(
                 "group flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200",
                 isActive
@@ -125,13 +137,14 @@ export function Sidebar() {
         </div>
       </div>
 
-      {/* Toggle Button */}
-      <button
-        onClick={() => setIsCollapsed(!isCollapsed)}
-        className="absolute -right-3 top-20 flex h-6 w-6 items-center justify-center rounded-full border bg-white shadow-sm transition-transform hover:scale-110"
-      >
-        {isCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
-      </button>
+      {!isMobile && (
+        <button
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          className="absolute -right-3 top-20 flex h-6 w-6 items-center justify-center rounded-full border bg-white shadow-sm transition-transform hover:scale-110"
+        >
+          {isCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+        </button>
+      )}
     </motion.aside>
   );
 }
