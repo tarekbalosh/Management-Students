@@ -2,7 +2,7 @@ const router = require('express').Router();
 const ctrl = require('./document.controller');
 const authenticate = require('../../middleware/authenticate');
 const authorize = require('../../middleware/authorize');
-const upload = require('../../config/multerConfig');
+const { upload } = require('../../config/multerConfig');
 
 router.use(authenticate);
 

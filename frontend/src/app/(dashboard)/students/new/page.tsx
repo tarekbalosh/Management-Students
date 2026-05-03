@@ -43,7 +43,7 @@ const studentSchema = z.object({
     score: z.string().optional(),
   }).optional(),
 
-  status: z.string().default("lead"),
+  status: z.string(),
 });
 
 type StudentFormValues = z.infer<typeof studentSchema>;

@@ -5,6 +5,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
+
 // Mock Data
 const MOCK_USER = { id: '1', firstName: 'Sarah', lastName: 'Mitchell', email: 'admin@studycrm.com', role: 'admin' };
 const MOCK_STATS = {
