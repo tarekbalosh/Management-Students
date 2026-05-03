@@ -18,7 +18,7 @@ export function GlobalErrorFallback({ error, resetErrorBoundary }: FallbackProps
         </p>
         <div className="bg-slate-50 p-6 rounded-2xl mb-10 text-left overflow-auto max-h-40 border border-slate-100">
            <p className="text-xs font-mono text-rose-600 leading-tight whitespace-pre-wrap">
-             {error.message}
+             {error instanceof Error ? error.message : String(error)}
            </p>
         </div>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
