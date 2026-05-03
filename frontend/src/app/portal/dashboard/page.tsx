@@ -10,7 +10,8 @@ import {
   ArrowRight,
   Clock,
   CheckCircle2,
-  AlertCircle
+  AlertCircle,
+  Bell
 } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
