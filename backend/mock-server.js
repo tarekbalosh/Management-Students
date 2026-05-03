@@ -11,7 +11,7 @@ app.use((req, res, next) => {
 });
 
 // Mock Data
-const MOCK_USER = { id: '1', firstName: 'Sarah', lastName: 'Mitchell', email: 'admin@studycrm.com', role: 'admin' };
+const MOCK_USER = { id: '1', firstName: 'Tarek', lastName: 'Baloush', email: 'admin@study.com', role: 'admin' };
 const MOCK_STATS = {
   totalStudents: 156,
   newStudentsThisMonth: 12,
