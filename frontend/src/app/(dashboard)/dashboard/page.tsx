@@ -41,6 +41,40 @@ const fetchStats = async () => {
 
 const COLORS = ["#4F46E5", "#10B981", "#F59E0B", "#EF4444"];
 
+export default function DashboardPage() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["dashboard-stats"],
+    queryFn: fetchStats,
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex h-[60vh] flex-col items-center justify-center gap-4">
+        <Loader2 className="h-10 w-10 animate-spin text-primary-600" />
+        <p className="text-slate-500 animate-pulse">Gathering intelligence...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="rounded-[2rem] border border-rose-100 bg-rose-50 p-12 text-center text-rose-900 shadow-soft">
+        <AlertCircle className="mx-auto mb-4 h-16 w-16 text-rose-500" />
+        <h2 className="text-2xl font-black uppercase tracking-tight">System Interruption</h2>
+        <p className="mt-2 text-sm font-medium text-rose-700">The intelligence feed was interrupted. Please verify your connection.</p>
+        <Button variant="outline" className="mt-8 border-rose-200 text-rose-600 hover:bg-rose-100" onClick={() => window.location.reload()}>
+          Retry Handshake
+        </Button>
+      </div>
+    );
+  }
+
+  const pieData = [
+    { name: "Pending", value: data.pendingApplications },
+    { name: "Accepted", value: data.acceptedApplications },
+    { name: "Rejected", value: data.rejectedApplications },
+  ];
+
   return (
     <div className="space-y-10 pb-20">
       {/* ── Header ── */}
@@ -209,6 +243,3 @@ const COLORS = ["#4F46E5", "#10B981", "#F59E0B", "#EF4444"];
   );
 }
 
-function cn(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
