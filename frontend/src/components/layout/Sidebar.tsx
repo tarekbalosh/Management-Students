@@ -20,6 +20,8 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+import { useAuth } from "@/context/AuthContext";
+
 const navItems = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Students", href: "/students", icon: Users },
@@ -40,6 +42,7 @@ interface SidebarProps {
 export function Sidebar({ onMobileClose, isMobile }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const pathname = usePathname();
+  const { user, logout } = useAuth();
 
   const handleLinkClick = () => {
     if (isMobile && onMobileClose) {
@@ -122,15 +125,22 @@ export function Sidebar({ onMobileClose, isMobile }: SidebarProps) {
       {/* User Section */}
       <div className="border-t p-4">
         <div className={cn("flex items-center", isCollapsed ? "justify-center" : "gap-3")}>
-          <div className="h-8 w-8 rounded-full bg-slate-200 border-2 border-white shadow-sm" />
+          <div className="h-8 w-8 rounded-full bg-slate-200 border-2 border-white shadow-sm flex items-center justify-center text-[10px] font-black text-slate-500 uppercase">
+            {user?.firstName?.charAt(0)}{user?.lastName?.charAt(0)}
+          </div>
           {!isCollapsed && (
             <div className="flex-1 overflow-hidden">
-              <p className="truncate text-sm font-medium text-slate-900">Sarah Mitchell</p>
-              <p className="truncate text-xs text-slate-500">Admin</p>
+              <p className="truncate text-sm font-black text-slate-900 leading-tight">
+                {user?.firstName} {user?.lastName}
+              </p>
+              <p className="truncate text-[10px] text-slate-400 font-bold uppercase tracking-widest">{user?.role}</p>
             </div>
           )}
           {!isCollapsed && (
-            <button className="rounded-lg p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-600">
+            <button 
+              onClick={logout}
+              className="rounded-lg p-2 text-slate-400 hover:bg-rose-50 hover:text-rose-600 transition-colors"
+            >
               <LogOut size={16} />
             </button>
           )}

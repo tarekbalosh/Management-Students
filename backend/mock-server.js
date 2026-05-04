@@ -53,6 +53,10 @@ app.post('/api/auth/login', (req, res) => {
   res.json({ success: true, data: { accessToken: 'mock_token', user: MOCK_USER } });
 });
 
+app.get('/api/auth/me', (req, res) => {
+  res.json({ success: true, data: MOCK_USER });
+});
+
 app.get('/api/dashboard/stats', (req, res) => {
   res.json({ success: true, data: MOCK_STATS });
 });

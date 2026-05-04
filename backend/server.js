@@ -27,7 +27,7 @@ async function start() {
   });
 
   process.on('uncaughtException', (err) => {
-    logger.error('Uncaught Exception:', err.message);
+    logger.error('Uncaught Exception:', err);
     process.exit(1);
   });
 

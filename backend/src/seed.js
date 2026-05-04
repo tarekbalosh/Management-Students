@@ -9,8 +9,16 @@ const Application = require('./models/Application');
 
 const seed = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log('Connected to MongoDB for seeding...');
+    try {
+      await mongoose.connect(process.env.MONGO_URI, { serverSelectionTimeoutMS: 2000 });
+      console.log('Connected to local MongoDB for seeding...');
+    } catch (err) {
+      console.log('Local MongoDB unavailable, using Memory Server fallback for seeding...');
+      const { MongoMemoryServer } = require('mongodb-memory-server');
+      const mongod = await MongoMemoryServer.create();
+      await mongoose.connect(mongod.getUri());
+      console.log('Connected to MongoDB Memory Server!');
+    }
 
     // Clear existing data
     await Promise.all([
