@@ -31,7 +31,7 @@ const connectDB = async () => {
             firstName: 'Tarek',
             lastName: 'Baloush',
             email: 'admin@study.com',
-            password: 'Admin@123',
+            password: 'admin@123',
             role: 'admin',
           });
           logger.info('👤  Default Admin (Tarek Baloush) created in memory.');

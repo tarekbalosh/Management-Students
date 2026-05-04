@@ -29,12 +29,11 @@ const seed = async () => {
     ]);
 
     // 1. Create Admin User
-    const adminPassword = await bcrypt.hash('Admin@123', 12);
     const admin = await User.create({
       firstName: 'Tarek',
       lastName: 'Baloush',
       email: 'admin@study.com',
-      password: adminPassword,
+      password: 'admin@123',
       role: 'admin',
     });
 
@@ -92,8 +91,8 @@ const seed = async () => {
     });
 
     console.log('Seeding complete!');
-    console.log('Admin Email: admin@studycrm.com');
-    console.log('Admin Password: Admin@123');
+    console.log('Admin Email: admin@study.com');
+    console.log('Admin Password: admin@123');
     process.exit(0);
   } catch (err) {
     console.error('Seeding failed:', err);
