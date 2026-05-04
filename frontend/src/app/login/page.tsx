@@ -88,15 +88,22 @@ export default function LoginPage() {
               <div className="relative">
                 <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300" size={20} />
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   required
                   autoCapitalize="none"
                   autoComplete="current-password"
-                  className="w-full h-14 rounded-2xl border-none bg-slate-50 pl-14 pr-6 text-sm font-medium outline-none ring-primary-500 transition-all focus:ring-2 focus:bg-white"
+                  className="w-full h-14 rounded-2xl border-none bg-slate-50 pl-14 pr-14 text-sm font-medium outline-none ring-primary-500 transition-all focus:ring-2 focus:bg-white"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-300 hover:text-slate-500 transition-colors"
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
               </div>
             </div>
 
