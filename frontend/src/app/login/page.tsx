@@ -67,6 +67,9 @@ export default function LoginPage() {
                   type="email"
                   placeholder="name@example.com"
                   required
+                  autoCapitalize="none"
+                  autoComplete="email"
+                  autoCorrect="off"
                   className="w-full h-14 rounded-2xl border-none bg-slate-50 pl-14 pr-6 text-sm font-medium outline-none ring-primary-500 transition-all focus:ring-2 focus:bg-white"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -85,6 +88,8 @@ export default function LoginPage() {
                   type="password"
                   placeholder="••••••••"
                   required
+                  autoCapitalize="none"
+                  autoComplete="current-password"
                   className="w-full h-14 rounded-2xl border-none bg-slate-50 pl-14 pr-6 text-sm font-medium outline-none ring-primary-500 transition-all focus:ring-2 focus:bg-white"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
