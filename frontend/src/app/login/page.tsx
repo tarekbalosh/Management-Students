@@ -28,7 +28,10 @@ export default function LoginPage() {
     setError("");
 
     try {
-      const { data } = await api.post("/auth/login", { email, password });
+      const { data } = await api.post("/auth/login", { 
+        email: email.trim().toLowerCase(), 
+        password 
+      });
       login(data.data.accessToken, data.data.user);
     } catch (err: any) {
       console.error(err);
