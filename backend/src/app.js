@@ -33,12 +33,8 @@ app.use((req, res, next) => {
   next();
 });
 
-const origins = process.env.CLIENT_ORIGIN 
-  ? process.env.CLIENT_ORIGIN.split(',') 
-  : ['http://localhost:3000'];
-
 app.use(cors({
-  origin:      origins,
+  origin:      true,
   credentials: true,
   methods:     ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
 }));
