@@ -32,8 +32,8 @@ const seed = async () => {
     const admin = await User.create({
       firstName: 'Tarek',
       lastName: 'Baloush',
-      email: 'admin@study.com',
-      password: 'admin@123',
+      email: 'admin@resturant.com',
+      password: 'admin123',
       role: 'admin',
     });
 
@@ -91,8 +91,8 @@ const seed = async () => {
     });
 
     console.log('Seeding complete!');
-    console.log('Admin Email: admin@study.com');
-    console.log('Admin Password: admin@123');
+    console.log('Admin Email: admin@resturant.com');
+    console.log('Admin Password: admin123');
     process.exit(0);
   } catch (err) {
     console.error('Seeding failed:', err);
